@@ -1,3 +1,10 @@
+/**
+ * File:			SlowFileStringifier.java
+ * Created:			01/10/2019
+ * Last Changed:	$Date: 02/05/2019  10:56  $
+ * Author:			vamsi
+ */
+
 package edu.fitchburgstate.csc7400.extra;
 
 import java.io.*;
@@ -6,18 +13,19 @@ import java.util.ArrayList;
 /**
  * This class is used to display contents of a text file
  * which implements FileStringifier.
+ * converts file contents into a string 
+ * 
  * @author vamsi
- *
  *
  */
 public class SlowFileStringifier implements FileStringifier {
 	
 	/**
 	 * Create a SlowFileStringifier object with a file name.
-	 * @param filename
-	 * filename is name of the file.
 	 * Constructor method with a string argument to 
 	 * initialize private variable file name.
+	 *
+	 * @param filename is name of the file.
 	 */
 	public SlowFileStringifier(String filename) {
         this.fileName = filename;
@@ -26,8 +34,8 @@ public class SlowFileStringifier implements FileStringifier {
 	@Override
 	/**
 	 * print the file contents to the PrintWriter
-	 * @param out
-	 * out is a PrintWriter object 
+	 * 
+	 * @param out is a PrintWriter object 
 	 * @see edu.fitchburgstate.csc7400.extra.File
 	 */
     public void display(PrintWriter out) {
@@ -40,8 +48,9 @@ public class SlowFileStringifier implements FileStringifier {
     /**
      * Implementation of interface method which returns a String.
      * reads text from file line by line.
-     * returns combined string which contains entire file content.
      * @see edu.fitchburgstate.csc7400.extra.FileStringifier#stringify()
+     * 
+     * @return combined string which contains entire file content.
      */
     public String stringify() {
         FileReader f;
