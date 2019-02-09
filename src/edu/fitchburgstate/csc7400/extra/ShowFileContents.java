@@ -3,6 +3,7 @@ package edu.fitchburgstate.csc7400.extra;
 // import File and PrintWriter classes
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.concurrent.Semaphore;
 
 /**
  * This program prints the contents of all the files 
@@ -36,16 +37,29 @@ public class ShowFileContents {
             System.err.println(dirname + " is not a directory");
             return;
         }
-        // Create a PrintWriter object to write on Console
-        PrintWriter outWriter = new PrintWriter(System.out);
-        // Iterate  for all list of files in the directory which is sent as command line argument file by file. 
-        // If file is a directory, don't do any thing, continue loop
-        for (File file: dir.listFiles()) {
-        	if (file.isDirectory()) continue;
-        	// create a SlowFileStringifier object by converting abstract pathname into a pathname string.
-        	// call display method by sending outwriter to display content on console.
-        	FileStringifier fileStringifier = new SlowFileStringifier(file.getPath());
-        	fileStringifier.display(outWriter);
+        File[] files = dir.listFiles();
+        final PrintWriter outWriter = new PrintWriter(System.out);
+        final Semaphore Sem = new Semaphore(0); 
+        for (final File file : files) {
+        	if (file.isDirectory())
+        		continue;
+        	Thread thread = new Thread() {
+        		public void run() {
+        			try {
+        			FileStringifier fd = new FileStringifierProxy(file.getPath(), Sem);
+        			fd.display(outWriter);
+        			}
+        			finally {
+        				Sem.release();
+        			}
+        		}
+        	};
+        	thread.start();
         }
+        Sem.release();
+        	
+        }
+        
     }
-  }
+  
+	
